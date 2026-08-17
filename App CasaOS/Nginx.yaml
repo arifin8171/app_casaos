@@ -1,0 +1,63 @@
+name: linuxserver-nginx
+services:
+  app:
+    cpu_shares: 90
+    command: []
+    container_name: NginxWebsite
+    deploy:
+      resources:
+        limits:
+          memory: 1642M
+    environment:
+      - PGID=1000
+      - PUID=1000
+      - TZ=Etc/UTC
+    hostname: NginxWebsite
+    image: linuxserver/nginx:1.30.4
+    labels:
+      icon: https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/nginx-banner.png
+    ports:
+      - target: 80
+        published: "8081"
+        protocol: tcp
+      - target: 443
+        published: "443"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/nginx/config
+        target: /config
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+networks:
+  default:
+    name: linuxserver-nginx_default
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  author: WisdomSky
+  category: LinuxServer.io
+  description:
+    en_us: Nginx is an HTTP web server, reverse proxy, content cache, load balancer,
+      TCP/UDP proxy server, and mail proxy server.
+  developer: LinuxServer.io
+  hostname: ""
+  icon: https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/nginx-banner.png
+  index: /
+  is_uncontrolled: false
+  main: app
+  port_map: "8081"
+  scheme: http
+  store_app_id: linuxserver-nginx
+  tagline:
+    en_us: An HTTP web server, reverse proxy, content cache, load balancer, TCP/UDP
+      proxy server, and mail proxy server.
+  thumbnail: https://raw.githubusercontent.com/linuxserver/docker-templates/master/linuxserver.io/img/nginx-banner.png
+  title:
+    custom: ""
+    en_us: Nginx

@@ -1,0 +1,99 @@
+name: big-bear-wordpress
+services:
+  app:
+    cpu_shares: 90
+    container_name: Wordpress
+    depends_on:
+      db:
+        condition: service_started
+        required: true
+    deploy:
+      resources:
+        limits:
+          memory: 1642M
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_NAME=wordpress
+      - WORDPRESS_DB_PASSWORD=casaos
+      - WORDPRESS_DB_USER=casaos
+    image: wordpress:6.9.4@sha256:5d2c212561c4b5442ebc4d98933a9cbadcf3dee8888ed3fd9ed44667c27cc905
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wordpress.png
+    ports:
+      - mode: ingress
+        target: 80
+        published: "8082"
+        protocol: tcp
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/big-bear-wordpress/html
+        target: /var/www/html
+        bind:
+          create_host_path: true
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    hostname: Wordpress
+  db:
+    cpu_shares: 90
+    deploy:
+      resources:
+        limits:
+          memory: 1642M
+    environment:
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_PASSWORD=casaos
+      - MYSQL_ROOT_PASSWORD=casaos
+      - MYSQL_USER=casaos
+    image: mysql:5.7@sha256:4bc6bc963e6d8443453676cae56536f4b8156d78bae03c0145cbe47c2aad73bb
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wordpress.png
+    restart: unless-stopped
+    volumes:
+      - type: bind
+        source: /DATA/AppData/big-bear-wordpress/mysql
+        target: /var/lib/mysql
+        bind:
+          create_host_path: true
+    ports: []
+    devices: []
+    cap_add: []
+    command: []
+    networks:
+      - default
+    privileged: false
+    container_name: ""
+    hostname: ""
+networks:
+  default:
+    name: big-bear-wordpress_default
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  author: BigBearTechWorld
+  category: Others
+  description:
+    en_US: Initially started as a blogging tool in 2003, it has evolved into a
+      highly flexible CMS that powers over 40% of the web (as of my last
+      training data in 2022).
+  developer: Automattic
+  hostname: ""
+  icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/wordpress.png
+  id: com.bigbeartechworld.wordpress
+  index: /
+  is_uncontrolled: false
+  main: app
+  port_map: "8082"
+  scheme: http
+  store_app_id: big-bear-wordpress
+  tagline:
+    en_US: WordPress
+  thumbnail: ""
+  title:
+    custom: ""
+    en_US: WordPress (Legacy)
