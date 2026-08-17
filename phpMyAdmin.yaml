@@ -1,0 +1,58 @@
+name: big-bear-phpmyadmin
+services:
+  phpmyadmin:
+    cpu_shares: 90
+    command: []
+    container_name: big-bear-phpmyadmin
+    deploy:
+      resources:
+        limits:
+          memory: 1642M
+    environment:
+      - PMA_HOST=169.254.119.83
+      - PMA_PASSWORD=casaos1
+      - PMA_PORT=3306
+      - PMA_USER=root
+    hostname: big-bear-phpmyadmin
+    image: phpmyadmin/phpmyadmin:5.2.3@sha256:42a200db07b4e70fbf32c594ad4521cf16399b8e54bbb5adceae98e7566dfbeb
+    labels:
+      icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/phpmyadmin.png
+    ports:
+      - mode: ingress
+        target: 80
+        published: "8080"
+        protocol: tcp
+    restart: unless-stopped
+    volumes: []
+    devices: []
+    cap_add: []
+    networks:
+      - default
+    privileged: false
+networks:
+  default:
+    name: big-bear-phpmyadmin_default
+x-casaos:
+  architectures:
+    - amd64
+    - arm64
+  author: BigBearTechWorld
+  category: Others
+  description:
+    en_US: phpMyAdmin - A web interface for MySQL and MariaDB.
+  developer: phpMyAdmin
+  hostname: ""
+  icon: https://cdn.jsdelivr.net/gh/selfhst/icons/png/phpmyadmin.png
+  id: com.bigbeartechworld.phpmyadmin
+  index: /
+  is_uncontrolled: false
+  main: phpmyadmin
+  port_map: "8080"
+  scheme: http
+  store_app_id: big-bear-phpmyadmin
+  tagline:
+    en_US: phpMyAdmin
+  thumbnail: ""
+  title:
+    custom: ""
+    en_US: phpMyAdmin
